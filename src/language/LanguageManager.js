@@ -312,6 +312,9 @@ define(function (require, exports, module) {
     /** @type {{ prefix: string, suffix: string }} Block comment syntax */
     Language.prototype._blockCommentSyntax = null;
     
+    /** @type {?boolean} Identifier for this language */
+    Language.prototype._isBinary = null;
+    
     /**
      * Returns the identifier for this language.
      * @return {string} The identifier
@@ -338,6 +341,22 @@ define(function (require, exports, module) {
         
         this._id = id;
         return true;
+    };
+    
+    /**
+     * Set wether this language is for binary file types.
+     */
+    Language.prototype._setIsBinary = function (isBinary) {
+        // TODO couz: need to check for correct true or false value?
+        this._isBinary = isBinary;
+    };
+    // TODO couz: review all API comments
+    /**
+     * Returns wether this language is for binary file types.
+     * @return {string} The name
+     */
+    Language.prototype.getIsBinary = function () {
+        return this._isBinary;
     };
 
     /**
@@ -687,6 +706,7 @@ define(function (require, exports, module) {
                     language.addFileExtension(fileExtensions[i]);
                 }
             }
+            language._setIsBinary(true);
             _languages[language.getId()] = language;
             // delete from pending languages after success and failure
             delete _pendingLanguages[id];
